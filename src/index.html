@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sorting Algorithms Visualizer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Sorting Algorithms Visualizer</h1>
+  <form>
+    <label for="algorithm">Choose an algorithm:</label>
+    <select id="algorithm">
+      <option value="bubbleSort">Bubble Sort</option>
+      <option value="insertionSort">Insertion Sort</option>
+      <option value="selectionSort">Selection Sort</option>
+      <option value="shellSort">Shell Sort</option>
+      <option value="mergeSort">Merge Sort</option>
+      <option value="quickSort">Quick Sort</option>
+    </select>
+
+    <label for="speed">Speed</label>
+    <input type="range" name="speed" id="speed">
+
+    <label for="array">Enter an array (comma-separated):</label>
+    <input type="text" id="array" value="5, 2, 8, 3, 1, 6, 4">
+    <button id="sort">Sort!</button>
+  </form>
+  <div id="main-container">
+
+    <div id="array-container">
+      <!-- Estado da lista -->
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
