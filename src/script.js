@@ -26,7 +26,11 @@ sortButton.addEventListener("click", (event) => {
     isExecuting = true;
     inputsController();
 
+    simulacaoText = document.getElementById("simulacao");
+    simulacaoText.style.display = "block";
+
     arrayContainer.innerHTML = "";
+
     array = arrayInput.value.split(",").map(Number);
     const speed = 2000 - speedInput.value * 20;
     visualizeSorting(algorithm, array, 0, speed);
@@ -130,65 +134,6 @@ function selectionSort(array, step = 0, speed = 500) {
         inputsController();
     }
 }
-
-// Shell sort
-
-// function shellSort(array, step = 0, gap = 2, speed = 500) {
-//     const n = array.length;
-//     gap = gap || Math.floor(n / 2);
-
-//     if (gap > 0) {
-//         if (step < n) {
-//             let temp = array[step];
-//             let j = step;
-//             while (j >= gap && array[j - gap] > temp) {
-//                 array[j] = array[j - gap];
-//                 visualizeStep(array, j, j - gap);
-//                 j -= gap;
-//             }
-//             if (j !== step) {
-//                 array[j] = temp;
-//                 visualizeStep(array, j, step);
-//             }
-//             setTimeout(() => {
-//                 shellSort(array, step + 1, gap, speed);
-//             }, speed);
-
-//             if (isSorted(array)) {
-//                 isExecuting = false;
-//                 inputsController();
-//                 return;
-//             }
-//         } else {
-//             shellSort(array, 0, Math.floor(gap / 3), speed);
-//         }
-//         console.log(array, gap, step);
-//     }
-// }
-
-// def shell_sort(values):
-//     values = list(values)
-//     size = len(values)
-
-//     # Calcular o maior H possível menor que SIZE
-//     h = 0
-//     while h*3+1 < size:
-//         h = h*3+1
-
-//     # Ordenar valores
-//     while h > 0:
-//         for i in range(h, size):
-//             current = values[i]
-//             j = i - h
-            
-//             # Procura por elemento com valor maior que o atual em intervalos de H
-//             while j >= 0 and values[j] > current:
-//                 values[j], values[i] = values[i], values[j]
-//                 j, i = j - h, j
-//         h = h // 3
-    
-//     return values
-
 
 function shellSort(array, speed = 500) {
     let size = array.length;
@@ -322,11 +267,6 @@ function inputsController() {
         algorithmSelect.disabled = false;
         sortButton.disabled = false;
         speedInput.disabled = false;
-
-        // elements = document.getElementsByClassName("array-element");
-        // for (let i = 0; i < elements.length; i++) {
-        //     elements[i].classList.remove("active");
-        // }
     }
 }
 
@@ -360,3 +300,46 @@ function visualizeStep(array, i, j) {
         arrayContainer.appendChild(arrayElement);
     });
 }
+
+// Legenda
+
+const description = document.getElementById("description");
+
+function getAlgorithmDescription(algorithm) {
+    switch (algorithm) {
+        case "bubbleSort":
+            return "Itera sobre a lista, comparando elementos adjacentes e trocando-os se estiverem fora de ordem, repetindo esse processo até que a lista esteja ordenada. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n).";
+        case "insertionSort":
+            return "Constrói a lista ordenada um elemento por vez, inserindo cada novo elemento na posição correta comparando com os elementos já ordenados. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n).";
+        case "selectionSort":
+            return "Encontra repetidamente o menor elemento da lista não ordenada e o move para a posição correta na lista ordenada, mantendo duas sub-listas: uma ordenada e outra não. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n^2).";
+        case "shellSort":
+            return "Uma extensão do Insertion Sort que divide a lista em sublistas menores e aplica o Insertion Sort a cada sublista, utilizando uma sequência de gaps para determinar quais elementos são comparados e trocados. A complexidade no pior caso é O(n^2), no caso médio é dependente da sequência de gaps utilizada e no melhor caso é O(n log n).";
+        case "mergeSort":
+            return "Utiliza a estratégia de dividir e conquistar, dividindo a lista ao meio de forma equilibrada, recursivamente ordenando as sublistas e mesclando as sublistas ordenadas para obter a lista final ordenada. A complexidade no pior caso é O(n log n), no caso médio é O(n log n) e no melhor caso é O(n log n).";
+        case "quickSort":
+            return "Utiliza a estratégia de dividir e conquistar, selecionando um pivô, rearranjando os elementos de forma que os menores estejam à esquerda e os maiores à direita do pivô, e então recursivamente ordenando as sublistas menores. A complexidade no pior caso é O(n^2), no caso médio é O(n log n) e no melhor caso é O(n log n).";
+        default:
+            return "";
+    }
+}
+
+function handleAlgorithmChange(e) {
+    const algorithm = e.target.value;
+    console.log(algorithm);
+    const algorithmDescription = getAlgorithmDescription(algorithm);
+    description.textContent = algorithmDescription;
+    arrayContainer.innerHTML = "";
+    simulacaoText = document.getElementById("simulacao");
+    // Display none quando mudar o algoritmo 
+    simulacaoText.style.display = "none";
+}
+
+algorithmSelect.addEventListener("change", handleAlgorithmChange);
+
+// Ao iniciar a página chamar a função handleAlgorithmChange
+(function initializePage() {
+    const algorithm = algorithmSelect.value;
+    const algorithmDescription = getAlgorithmDescription(algorithm);
+    description.textContent = algorithmDescription;
+})();
