@@ -35,6 +35,7 @@ sortButton.addEventListener("click", (event) => {
 // Sorting algorithms
 
 function visualizeSorting(algorithm, array, step, speed) {
+    visualizeStep(array, null, null);
     switch (algorithm) {
         case "bubbleSort":
             bubbleSort(array, step, speed);
@@ -132,36 +133,83 @@ function selectionSort(array, step = 0, speed = 500) {
 
 // Shell sort
 
-function shellSort(array, step = 0, gap = 2, speed = 500) {
-    const n = array.length;
-    gap = gap || Math.floor(n / 2);
+// function shellSort(array, step = 0, gap = 2, speed = 500) {
+//     const n = array.length;
+//     gap = gap || Math.floor(n / 2);
 
-    if (gap > 0) {
-        if (step < n) {
-            let temp = array[step];
-            let j = step;
-            while (j >= gap && array[j - gap] > temp) {
-                array[j] = array[j - gap];
-                visualizeStep(array, j, j - gap);
-                j -= gap;
-            }
-            if (j !== step) {
-                array[j] = temp;
-                visualizeStep(array, j, step);
-            }
-            setTimeout(() => {
-                shellSort(array, step + 1, gap, speed);
-            }, speed);
+//     if (gap > 0) {
+//         if (step < n) {
+//             let temp = array[step];
+//             let j = step;
+//             while (j >= gap && array[j - gap] > temp) {
+//                 array[j] = array[j - gap];
+//                 visualizeStep(array, j, j - gap);
+//                 j -= gap;
+//             }
+//             if (j !== step) {
+//                 array[j] = temp;
+//                 visualizeStep(array, j, step);
+//             }
+//             setTimeout(() => {
+//                 shellSort(array, step + 1, gap, speed);
+//             }, speed);
 
-            if (isSorted(array)) {
-                isExecuting = false;
-                inputsController();
-                return;
+//             if (isSorted(array)) {
+//                 isExecuting = false;
+//                 inputsController();
+//                 return;
+//             }
+//         } else {
+//             shellSort(array, 0, Math.floor(gap / 3), speed);
+//         }
+//         console.log(array, gap, step);
+//     }
+// }
+
+// def shell_sort(values):
+//     values = list(values)
+//     size = len(values)
+
+//     # Calcular o maior H possível menor que SIZE
+//     h = 0
+//     while h*3+1 < size:
+//         h = h*3+1
+
+//     # Ordenar valores
+//     while h > 0:
+//         for i in range(h, size):
+//             current = values[i]
+//             j = i - h
+            
+//             # Procura por elemento com valor maior que o atual em intervalos de H
+//             while j >= 0 and values[j] > current:
+//                 values[j], values[i] = values[i], values[j]
+//                 j, i = j - h, j
+//         h = h // 3
+    
+//     return values
+
+
+function shellSort(array, speed = 500) {
+    let size = array.length;
+    let h = 1;
+    while (h < size / 3) {
+        h = 3 * h + 1;
+    }
+
+    while (h >= 1) {
+        for (let i = h; i < size; i++) {
+            for (let j = i; j >= h && array[j] < array[j - h]; j -= h) {
+                swap(array, j, j - h);
+                visualizeStep(array, j, j - h, speed);
             }
-        } else {
-            shellSort(array, 0, Math.floor(gap / 3), speed);
         }
-        console.log(array, gap, step);
+        h = Math.floor(h / 3);
+    }
+
+    if (isSorted(array)) {
+        isExecuting = false;
+        inputsController();
     }
 }
 
@@ -275,10 +323,10 @@ function inputsController() {
         sortButton.disabled = false;
         speedInput.disabled = false;
 
-        elements = document.getElementsByClassName("array-element");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].classList.remove("active");
-        }
+        // elements = document.getElementsByClassName("array-element");
+        // for (let i = 0; i < elements.length; i++) {
+        //     elements[i].classList.remove("active");
+        // }
     }
 }
 
@@ -298,7 +346,10 @@ function swap(array, i, j) {
 }
 
 function visualizeStep(array, i, j) {
-    arrayContainer.innerHTML = "";
+    // arrayContainer.innerHTML = "";
+    // Quebra de linha
+    const br = document.createElement("br");
+    arrayContainer.appendChild(br);
     array.forEach((element, index) => {
         const arrayElement = document.createElement("div");
         arrayElement.classList.add("array-element");
