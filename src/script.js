@@ -296,6 +296,9 @@ function visualizeStep(array, i, j) {
         if (index === i || index === j) {
             arrayElement.classList.add("active");
         }
+        if (isSorted(array)) {
+            arrayElement.classList.add("sorted");
+        }
         arrayElement.textContent = element;
         arrayContainer.appendChild(arrayElement);
     });

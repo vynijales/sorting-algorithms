@@ -67,6 +67,11 @@ aside {
     color: #fff;
 }
 
+.array-element.sorted {
+    background-color: rgb(47, 188, 47);
+    color: #fff;
+}
+
 form {
     display: flex;
     flex-direction: column;
