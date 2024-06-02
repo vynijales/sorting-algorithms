@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', fallback, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;

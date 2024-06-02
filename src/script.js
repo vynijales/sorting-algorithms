@@ -311,17 +311,17 @@ const description = document.getElementById("description");
 function getAlgorithmDescription(algorithm) {
     switch (algorithm) {
         case "bubbleSort":
-            return "Itera sobre a lista, comparando elementos adjacentes e trocando-os se estiverem fora de ordem, repetindo esse processo até que a lista esteja ordenada. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n).";
+            return "Itera sobre a lista, comparando elementos adjacentes e trocando-os se estiverem fora de ordem, repetindo esse processo até que a lista esteja ordenada. A complexidade no pior caso é O(n²), no caso médio é O(n²) e no melhor caso é O(n).";
         case "insertionSort":
-            return "Constrói a lista ordenada um elemento por vez, inserindo cada novo elemento na posição correta comparando com os elementos já ordenados. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n).";
+            return "Constrói a lista ordenada um elemento por vez, inserindo cada novo elemento na posição correta comparando com os elementos já ordenados. A complexidade no pior caso é O(n²), no caso médio é O(n²) e no melhor caso é O(n).";
         case "selectionSort":
-            return "Encontra repetidamente o menor elemento da lista não ordenada e o move para a posição correta na lista ordenada, mantendo duas sub-listas: uma ordenada e outra não. A complexidade no pior caso é O(n^2), no caso médio é O(n^2) e no melhor caso é O(n^2).";
+            return "Encontra repetidamente o menor elemento da lista não ordenada e o move para a posição correta na lista ordenada, mantendo duas sub-listas: uma ordenada e outra não. A complexidade no pior caso é O(n²), no caso médio é O(n²) e no melhor caso é O(n²).";
         case "shellSort":
-            return "Uma extensão do Insertion Sort que divide a lista em sublistas menores e aplica o Insertion Sort a cada sublista, utilizando uma sequência de gaps para determinar quais elementos são comparados e trocados. A complexidade no pior caso é O(n^2), no caso médio é dependente da sequência de gaps utilizada e no melhor caso é O(n log n).";
+            return "Uma extensão do Insertion Sort que divide a lista em sublistas menores e aplica o Insertion Sort a cada sublista, utilizando uma sequência de gaps para determinar quais elementos são comparados e trocados. A complexidade no pior caso é O(n²), no caso médio é dependente da sequência de gaps utilizada e no melhor caso é O(n log n).";
         case "mergeSort":
             return "Utiliza a estratégia de dividir e conquistar, dividindo a lista ao meio de forma equilibrada, recursivamente ordenando as sublistas e mesclando as sublistas ordenadas para obter a lista final ordenada. A complexidade no pior caso é O(n log n), no caso médio é O(n log n) e no melhor caso é O(n log n).";
         case "quickSort":
-            return "Utiliza a estratégia de dividir e conquistar, selecionando um pivô, rearranjando os elementos de forma que os menores estejam à esquerda e os maiores à direita do pivô, e então recursivamente ordenando as sublistas menores. A complexidade no pior caso é O(n^2), no caso médio é O(n log n) e no melhor caso é O(n log n).";
+            return "Utiliza a estratégia de dividir e conquistar, selecionando um pivô, rearranjando os elementos de forma que os menores estejam à esquerda e os maiores à direita do pivô, e então recursivamente ordenando as sublistas menores. A complexidade no pior caso é O(n²), no caso médio é O(n log n) e no melhor caso é O(n log n).";
         default:
             return "";
     }

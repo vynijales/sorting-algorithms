@@ -2,18 +2,19 @@
 <html>
 
 <head>
-  <title>Visualizador de Algoritmos de Ordenação</title>
+  <meta charset="UTF-8">
+  <title>Sorting Algorithms Visualizer</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Fonte inter dentro da pasta assets/fonts/Inter -->
-  <link rel="stylesheet" href="assets/fonts/Inter/inter.css">
+  <!-- Inter font inside assets/fonts/Inter folder -->
+  <link rel="stylesheet" href="../public/fonts/Inter/static/Inter-Regular.ttf">
 </head>
 
 <body>
-  <h1>Visualizador de Algoritmos de Ordenação</h1>
+  <h1>Sorting Algorithms Visualizer</h1>
   <main id="main-container">
     <aside>
       <form>
-        <label for="algorithm">Escolha um algoritmo:</label>
+        <label for="algorithm">Choose an algorithm:</label>
         <select id="algorithm">
           <option value="bubbleSort" selected>Bubble Sort</option>
           <option value="insertionSort">Insertion Sort</option>
@@ -23,27 +24,27 @@
           <option value="quickSort">Quick Sort</option>
         </select>
 
-        <label for="speed">Velocidade:</label>
+        <label for="speed">Speed:</label>
         <input type="range" name="speed" id="speed">
 
-        <label for="array">Digite um array (separado por vírgulas):</label>
+        <label for="array">Enter an array (comma separated):</label>
         <input type="text" id="array" value="5, 2, 8, 3, 1, 6, 4">
-        <button id="sort">Ordenar!</button>
+        <button id="sort">Sort!</button>
       </form>
 
       <div>
-        <h2>Descrição do algoritmo</h2>
+        <h2>Algorithm Description</h2>
         <p id="description">
-          <!-- Será acrescentado dinamicamente -->
+          <!-- Will be dynamically added -->
         </p>
 
       </div>
     </aside>
 
-    <h2 id="simulacao" style="display: none;">Simulação</h2>
+    <h2 id="simulation" style="display: none;">Simulation</h2>
 
     <div id="array-container">
-      <!-- Estado da lista -->
+      <!-- State of the list -->
     </div>
 
   </main>
