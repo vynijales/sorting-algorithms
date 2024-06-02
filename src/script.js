@@ -26,7 +26,7 @@ sortButton.addEventListener("click", (event) => {
     isExecuting = true;
     inputsController();
 
-    simulacaoText = document.getElementById("simulacao");
+    simulacaoText = document.getElementById("simulation");
     simulacaoText.style.display = "block";
 
     arrayContainer.innerHTML = "";
@@ -306,7 +306,7 @@ function visualizeStep(array, i, j) {
 
 // Legenda
 
-const description = document.getElementById("description");
+const description = document.getElementById("description-text");
 
 function getAlgorithmDescription(algorithm) {
     switch (algorithm) {
@@ -333,7 +333,7 @@ function handleAlgorithmChange(e) {
     const algorithmDescription = getAlgorithmDescription(algorithm);
     description.textContent = algorithmDescription;
     arrayContainer.innerHTML = "";
-    simulacaoText = document.getElementById("simulacao");
+    simulacaoText = document.getElementById("simulation");
     // Display none quando mudar o algoritmo 
     simulacaoText.style.display = "none";
 }
