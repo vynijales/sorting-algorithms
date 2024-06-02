@@ -3,6 +3,7 @@ const arrayInput = document.getElementById("array");
 const sortButton = document.getElementById("sort");
 const arrayContainer = document.getElementById("array-container");
 const speedInput = document.getElementById("speed");
+const form = document.getElementsByTagName("form");
 let isExecuting = false;
 
 let array = [];
@@ -26,8 +27,8 @@ sortButton.addEventListener("click", (event) => {
     isExecuting = true;
     inputsController();
 
-    simulacaoText = document.getElementById("simulation");
-    simulacaoText.style.display = "block";
+    // simulacaoText = document.getElementById("simulation");
+    // simulacaoText.style.display = "block";
 
     arrayContainer.innerHTML = "";
 
@@ -261,12 +262,14 @@ function inputsController() {
         algorithmSelect.disabled = true;
         sortButton.disabled = true;
         speedInput.disabled = true;
+        form[0].style.display = "none";
 
     } else {
         arrayInput.disabled = false;
         algorithmSelect.disabled = false;
         sortButton.disabled = false;
         speedInput.disabled = false;
+        form[0].style.display = "flex";
     }
 }
 
@@ -333,9 +336,9 @@ function handleAlgorithmChange(e) {
     const algorithmDescription = getAlgorithmDescription(algorithm);
     description.textContent = algorithmDescription;
     arrayContainer.innerHTML = "";
-    simulacaoText = document.getElementById("simulation");
+    // simulacaoText = document.getElementById("simulation");
     // Display none quando mudar o algoritmo 
-    simulacaoText.style.display = "none";
+    // simulacaoText.style.display = "none";
 }
 
 algorithmSelect.addEventListener("change", handleAlgorithmChange);
