@@ -163,6 +163,16 @@ button {
   }
 }
 
+#result {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+#timer-value {
+  text-align: center;
+}
+
 #description {
   /* Blur effect on background */
   background: #eee;

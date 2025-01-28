@@ -4,7 +4,10 @@ const sortButton = document.getElementById("sort");
 const arrayContainer = document.getElementById("array-container");
 const speedInput = document.getElementById("speed");
 const form = document.getElementsByTagName("form");
+const resultsDiv = document.getElementById("results");
+let timerValue = 0;
 let isExecuting = false;
+let stepCount = 0; // Adicionar contador de passos
 
 let array = [];
 let algorithm = algorithmSelect.value;
@@ -25,6 +28,7 @@ sortButton.addEventListener("click", (event) => {
     }
 
     isExecuting = true;
+    stepCount = 0; // Resetar contador de passos
     inputsController();
 
     // simulacaoText = document.getElementById("simulation");
@@ -34,31 +38,37 @@ sortButton.addEventListener("click", (event) => {
 
     array = arrayInput.value.split(",").map(Number);
     const speed = 2000 - speedInput.value * 20;
-    visualizeSorting(algorithm, array, 0, speed);
+
+    const startTime = performance.now(); // Início da medição do tempo
+    visualizeSorting(algorithm, array, 0, speed).then(() => {
+        const endTime = performance.now(); // Fim da medição do tempo
+        const executionTime = (endTime - startTime) / 1000; // Tempo de execução em segundos
+        document.getElementById("timer-value").textContent = `${executionTime.toFixed(2)} segundos`;
+        document.getElementById("amount-steps").textContent = `Número de passos: ${stepCount}`; // Mostrar número de passos
+        resultsDiv.style.display = "block"; // Mostrar o temporizador após a execução
+    });
 });
 
-// Sorting algorithms
-
-function visualizeSorting(algorithm, array, step, speed) {
+async function visualizeSorting(algorithm, array, step, speed) {
     visualizeStep(array, null, null);
     switch (algorithm) {
         case "bubbleSort":
-            bubbleSort(array, step, speed);
+            await bubbleSort(array, step, speed);
             break;
         case "insertionSort":
-            insertionSort(array, step, speed);
+            await insertionSort(array, step, speed);
             break;
         case "selectionSort":
-            selectionSort(array, step, speed);
+            await selectionSort(array, step, speed);
             break;
         case "shellSort":
-            shellSort(array, step, speed);
+            await shellSort(array, step, speed);
             break;
         case "mergeSort":
-            mergeSort(array, 0, array.length - 1, speed);
+            await mergeSort(array, 0, array.length - 1, speed);
             break;
         case "quickSort":
-            quickSort(array, speed);
+            await quickSort(array, speed);
             break;
     }
 }
@@ -66,97 +76,111 @@ function visualizeSorting(algorithm, array, step, speed) {
 // Bubble sort
 
 function bubbleSort(array, step, speed = 500) {
-    const n = array.length;
-    for (let i = 0; i < n - 1; i++) {
-        for (let j = 0; j < n - i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                swap(array, j, j + 1);
-                visualizeStep(array, j, j + 1);
-                step++;
-                setTimeout(() => {
-                    bubbleSort(array, step, speed);
-                }, speed);
-                return;
+    return new Promise(resolve => {
+        const n = array.length;
+        for (let i = 0; i < n - 1; i++) {
+            for (let j = 0; j < n - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    swap(array, j, j + 1);
+                    visualizeStep(array, j, j + 1);
+                    step++;
+                    stepCount++; // Incrementar contador de passos
+                    setTimeout(() => {
+                        bubbleSort(array, step, speed).then(resolve);
+                    }, speed);
+                    return;
+                }
             }
         }
-    }
-    if (isSorted(array)) {
-        isExecuting = false;
-        inputsController();
-        return;
-    }
+        if (isSorted(array)) {
+            isExecuting = false;
+            inputsController();
+            resolve();
+        }
+    });
 }
 
 // Insertion sort
 
 function insertionSort(array, step, speed = 500) {
-    const n = array.length;
-    if (step < n) {
-        let key = array[step];
-        let j = step - 1;
-        while (j >= 0 && array[j] > key) {
-            array[j + 1] = array[j];
-            j--;
+    return new Promise(resolve => {
+        const n = array.length;
+        if (step < n) {
+            let key = array[step];
+            let j = step - 1;
+            while (j >= 0 && array[j] > key) {
+                array[j + 1] = array[j];
+                j--;
+            }
+            array[j + 1] = key;
+            visualizeStep(array, step, j + 1);
+            step++;
+            stepCount++; // Incrementar contador de passos
+            setTimeout(() => {
+                insertionSort(array, step, speed).then(resolve);
+            }, speed);
         }
-        array[j + 1] = key;
-        visualizeStep(array, step, j + 1);
-        step++;
-        setTimeout(() => {
-            insertionSort(array, step, speed);
-        }, speed);
-    }
 
-    if (isSorted(array)) {
-        isExecuting = false;
-        inputsController();
-        return;
-    }
+        if (isSorted(array)) {
+            isExecuting = false;
+            inputsController();
+            resolve();
+        }
+    });
 }
 
 // Selection sort
 
 function selectionSort(array, step = 0, speed = 500) {
-    const n = array.length;
-    if (step < n) {
-        let minIndex = step;
-        for (let j = step + 1; j < n; j++) {
-            if (array[j] < array[minIndex]) {
-                minIndex = j;
+    return new Promise(resolve => {
+        const n = array.length;
+        if (step < n) {
+            let minIndex = step;
+            for (let j = step + 1; j < n; j++) {
+                if (array[j] < array[minIndex]) {
+                    minIndex = j;
+                }
             }
+            swap(array, step, minIndex);
+            visualizeStep(array, step, minIndex);
+            step++;
+            stepCount++; // Incrementar contador de passos
+            setTimeout(() => {
+                selectionSort(array, step, speed).then(resolve);
+            }, speed);
+        } else if (isSorted(array)) {
+            isExecuting = false;
+            inputsController();
+            resolve();
         }
-        swap(array, step, minIndex);
-        visualizeStep(array, step, minIndex);
-        step++;
-        setTimeout(() => {
-            selectionSort(array, step, speed);
-        }, speed);
-    } else if (isSorted(array)) {
-        isExecuting = false;
-        inputsController();
-    }
+    });
 }
 
 function shellSort(array, speed = 500) {
-    let size = array.length;
-    let h = 1;
-    while (h < size / 3) {
-        h = 3 * h + 1;
-    }
-
-    while (h >= 1) {
-        for (let i = h; i < size; i++) {
-            for (let j = i; j >= h && array[j] < array[j - h]; j -= h) {
-                swap(array, j, j - h);
-                visualizeStep(array, j, j - h, speed);
-            }
+    return new Promise(resolve => {
+        let size = array.length;
+        let h = 1;
+        while (h < size / 3) {
+            h = 3 * h + 1;
         }
-        h = Math.floor(h / 3);
-    }
 
-    if (isSorted(array)) {
-        isExecuting = false;
-        inputsController();
-    }
+        while (h >= 1) {
+            for (let i = h; i < size; i++) {
+                for (let j = i; j >= h && array[j] < array[j - h]; j -= h) {
+                    swap(array, j, j - h);
+                    visualizeStep(array, j, j - h, speed);
+                    stepCount++; // Incrementar contador de passos
+                }
+            }
+            h = Math.floor(h / 3);
+        }
+
+        if (isSorted(array)) {
+            isExecuting = false;
+            inputsController();
+            resolve();
+        }
+    });
 }
 
 // Merge sort
@@ -197,11 +221,12 @@ function merge(array, start, mid, end, speed) {
             } else {
                 clearInterval(interval);
                 visualizeStep(array, start, end);
+                stepCount++; // Incrementar contador de passos
                 resolve();
             }
         }, speed);
     });
-}
+}   
 
 // Quick sort
 
@@ -244,10 +269,12 @@ function partition(array, low, high, speed) {
                     swap(array, i, low);
                 }
                 visualizeStep(array, low, high);
+                stepCount++; // Incrementar contador de passos
                 low++;
             } else {
                 swap(array, i + 1, high);
                 visualizeStep(array, i + 1, high);
+                stepCount++; // Incrementar contador de passos
                 clearInterval(interval);
                 resolve(i + 1);
             }
@@ -348,4 +375,8 @@ algorithmSelect.addEventListener("change", handleAlgorithmChange);
     const algorithm = algorithmSelect.value;
     const algorithmDescription = getAlgorithmDescription(algorithm);
     description.textContent = algorithmDescription;
+
+
 })();
+
+// Mostrar temporizador com o tempo de execução de cada algoritmo
